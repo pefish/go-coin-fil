@@ -3,6 +3,7 @@ package go_coin_fil
 import (
 	"context"
 	"encoding/hex"
+	"encoding/json"
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-crypto"
 	"github.com/filecoin-project/go-jsonrpc"
@@ -87,6 +88,22 @@ func (w *Wallet) GetSecp256k1AddressFromPrivateKey(pkey string, network address.
 
 	return secp256k1Addr.String(), nil
 }
+
+func (w *Wallet) ExportPrivateKey(keyType types.KeyType, privateKey string) (string, error) {
+	priv, err := hex.DecodeString(privateKey)
+	if err != nil {
+		return "", go_error.Wrap(err)
+	}
+	by, err := json.Marshal(types.KeyInfo{
+		Type:       keyType,
+		PrivateKey: priv,
+	})
+	if err != nil {
+		return "", go_error.Wrap(err)
+	}
+	return hex.EncodeToString(by), nil
+}
+
 
 func (w *Wallet) getSecp256k1AddressFromPrivateKey(pkey string) (*address.Address, []byte, error) {
 	pkeyBytes, err := hex.DecodeString(pkey)

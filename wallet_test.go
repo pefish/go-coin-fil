@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/lotus/chain/types"
 	go_decimal "github.com/pefish/go-decimal"
 	"github.com/pefish/go-test-assert"
 	"testing"
@@ -56,4 +57,11 @@ func TestWallet_BuildTransferTx(t *testing.T) {
 	//cid, err := w.Remote.MpoolPush(ctx, msg)
 	//test.Equal(t, nil, err)
 	//fmt.Println(cid)
+}
+
+func TestWallet_ExportPrivateKey(t *testing.T) {
+	w := NewWallet()
+	str, err := w.ExportPrivateKey(types.KTSecp256k1, "30303030303030306eb482d265ace22c3cf9530a3e499de695afe6caf647f431")
+	test.Equal(t, nil, err)
+	fmt.Println(str)
 }
