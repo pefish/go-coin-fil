@@ -1,7 +1,9 @@
 package go_coin_fil
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"github.com/filecoin-project/go-address"
@@ -9,6 +11,7 @@ import (
 	"github.com/filecoin-project/go-jsonrpc"
 	crypto2 "github.com/filecoin-project/go-state-types/crypto"
 	lotusapi "github.com/filecoin-project/lotus/api"
+	"github.com/filecoin-project/lotus/chain/actors/builtin/miner"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/minio/blake2b-simd"
 	go_error "github.com/pefish/go-error"
@@ -174,4 +177,14 @@ func (w *Wallet) BuildTransferTx(pkey string, to string, amount string) (*types.
 		},
 	}, nil
 
+}
+
+func (w *Wallet) DecodeSubmitWindowedPoStParams(data string) (*miner.SubmitWindowedPoStParams, error) {
+	var params = new(miner.SubmitWindowedPoStParams)
+	bytes_, err := base64.StdEncoding.DecodeString(data)
+	if err != nil {
+		return nil, err
+	}
+	err = params.UnmarshalCBOR(bytes.NewReader(bytes_))
+	return params, err
 }

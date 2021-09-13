@@ -65,3 +65,11 @@ func TestWallet_ExportPrivateKey(t *testing.T) {
 	test.Equal(t, nil, err)
 	fmt.Println(str)
 }
+
+func TestWallet_DecodeSubmitWindowedPoStParams(t *testing.T) {
+	w := NewWallet()
+	result, err := w.DecodeSubmitWindowedPoStParams("hROBggFAgYIFWMCLYdoi5iSm2hnzy6F4sJNUplhxdKCxK7FHUbtr725GlnLcWRyuWNJv1sr1RUqDt5y4m1WBZjL9I9AO+qXuH6ueu0FR7U9o4nkA8D/eIWA0eZTIgBTBjiDIiySyNbKX4jIMHQ+a73Ai/wQieSThvSNwFZdwqZNH1rVc4zSM+Xa5t5jzs6lBOGXmSBuQ9sLPVomXpiGQlUH/kb+wqA4AQ8O/JxtKZQy9ycZ2G+yLjsU/8rAcLytY4bWY7WiqJJd+pIIaAAI5clgg/gf5oZDOEQpmvSWNXr5X+vXKUnPjBW2MgQJxpakmyzw=")
+	test.Equal(t, nil, err)
+	test.Equal(t, 1, len(result.Partitions))
+	test.Equal(t, uint64(1), result.Partitions[0].Index)
+}
