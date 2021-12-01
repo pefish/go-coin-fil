@@ -82,7 +82,7 @@ func TestWallet_BuildWithdrawFromMinerTx(t *testing.T) {
 
 	pkey, _, err := w.ImportPrivateKey("7b2254797065223a22626c73222c22507269766174654b6579223a2273736e6f70786359552b482b4a37696275753533595765634a7a75676c437578384e55497848563353306f3d227d")
 	test.Equal(t, nil, err)
-	msg, err := w.BuildWithdrawFromMinerTx(pkey, types.KTBLS,"t025622", go_decimal.Decimal.Start("10").MustShiftedBy(18).EndForString())
+	_, err = w.BuildWithdrawFromMinerTx(pkey, types.KTBLS,"t025622", go_decimal.Decimal.Start("10").MustShiftedBy(18).EndForString())
 	test.Equal(t, nil, err)
 
 
